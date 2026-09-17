@@ -50,6 +50,8 @@ workflows:
     environment:
       android_signing:
         - vrai_riche_keystore
+      groups:
+        - google_play
       vars:
         PACKAGE_NAME: "com.maxime.vrairiche"
       node: latest
