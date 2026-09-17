@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vrai Riche</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy: #0F1A2B;
+    --navy-deep: #081120;
+    --ivory: #F2E9D8;
+    --gold: #D4AF37;
+    --gold-soft: #E9CE7A;
+    --badge-color: #D4AF37;
+    --badge-dark: #8a701f;
+    --badge-light: #f0dd9a;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    background: radial-gradient(ellipse at 50% -10%, #16233a 0%, var(--navy) 45%, var(--navy-deep) 100%);
+    color: var(--ivory);
+    font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  }
+
+  .wrap {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 48px 20px 64px;
+  }
+
+  .kicker-title {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    opacity: 0.85;
+    margin: 0 0 28px;
+  }
+
+  .stage {
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 36px;
+  }
+
+  #badgeSvg {
+    width: 100%;
+    max-width: 340px;
+    height: auto;
+    filter: drop-shadow(0 18px 30px rgba(0,0,0,0.55));
+  }
+
+  .badge-word {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    fill: var(--navy-deep);
+  }
+
+  .caption {
+    max-width: 320px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.5;
+    color: rgba(242,233,216,0.75);
+    margin: -18px 0 34px;
+    font-style: italic;
+  }
+
+  .controls {
+    width: 100%;
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .field label {
+    display: block;
+    font-size: 12.5px;
+    letter-spacing: 0.04em;
+    color: var(--gold-soft);
+    margin-bottom: 8px;
+  }
+
+  select {
+    width: 100%;
+    padding: 12px 14px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(212,175,55,0.35);
+    border-radius: 8px;
+    color: var(--ivory);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 15px;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23D4AF37' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+  }
+
+  select option {
+    color: #111111;
+    background: #ffffff;
+  }
+
+  select:focus, input[type="color"]:focus-visible, .swatch:focus-visible {
+    outline: 2px solid var(--gold-soft);
+    outline-offset: 2px;
+  }
+
+  .swatches {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .swatch {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.25);
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .swatch.active {
+    border-color: var(--ivory);
+    box-shadow: 0 0 0 2px var(--navy-deep), 0 0 0 4px var(--ivory);
+  }
+
+  .custom-color {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  input[type="color"] {
+    width: 40px;
+    height: 34px;
+    border: 2px solid rgba(255,255,255,0.25);
+    border-radius: 8px;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .custom-color span {
+    font-size: 13px;
+    color: rgba(242,233,216,0.7);
+  }
+
+  footer {
+    margin-top: 44px;
+    font-size: 11.5px;
+    color: rgba(242,233,216,0.35);
+    text-align: center;
+    letter-spacing: 0.03em;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    #badgeSvg { transition: filter 0.2s ease; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="stage">
+    <svg id="badgeSvg" viewBox="0 0 340 320" xmlns="http://www.w3.org/2000/svg" tabindex="0" role="img">
+      <title id="badgeTooltip">Si elle a ce badge, ça veut dire qu'elle est riche.</title>
+      <defs>
+        <radialGradient id="faceGrad" cx="35%" cy="30%" r="75%">
+          <stop offset="0%" stop-color="var(--badge-light)"/>
+          <stop offset="55%" stop-color="var(--badge-color)"/>
+          <stop offset="100%" stop-color="var(--badge-dark)"/>
+        </radialGradient>
+        <linearGradient id="ribbonGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="var(--badge-color)"/>
+          <stop offset="100%" stop-color="var(--badge-dark)"/>
+        </linearGradient>
+      </defs>
+
+      <!-- outer ring -->
+      <circle cx="170" cy="160" r="152" fill="none" stroke="url(#ribbonGrad)" stroke-width="6" opacity="0.55"/>
+      <!-- medallion -->
+      <circle cx="170" cy="160" r="140" fill="url(#faceGrad)" stroke="var(--badge-dark)" stroke-width="3"/>
+      <circle cx="170" cy="160" r="118" fill="none" stroke="rgba(8,17,32,0.35)" stroke-width="2" stroke-dasharray="2 6"/>
+
+      <!-- star -->
+      <g transform="translate(170,108)">
+        <path d="M0,-22 L6.2,-7.6 L22,-6.8 L9.7,3 L13.6,18.6 L0,9.8 L-13.6,18.6 L-9.7,3 L-22,-6.8 L-6.2,-7.6 Z"
+              fill="var(--navy-deep)" opacity="0.85"/>
+      </g>
+
+      <!-- main text -->
+      <text id="badgeText" x="170" y="185" text-anchor="middle" dominant-baseline="central" class="badge-word" font-size="27"></text>
+    </svg>
+  </div>
+
+  <div class="controls">
+    <div class="field">
+      <label for="langSelect">Langue</label>
+      <select id="langSelect"></select>
+    </div>
+
+    <div class="field">
+      <label>Couleur du badge</label>
+      <div class="swatches" id="swatches"></div>
+      <div class="custom-color" style="margin-top:12px;">
+        <input type="color" id="colorPicker" value="#D4AF37">
+        <span>Couleur personnalisée</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const translations = [
+    { code: "ar-sa", label: "العربية (السعودية)", lines: ["أنا غني", "حقًا"] },
+    { code: "ar-ae", label: "العربية (الإمارات)", lines: ["أنا غني", "فعلاً"] },
+    { code: "ar-qa", label: "العربية (قطر)", lines: ["أنا غني", "فعلاً"] },
+    { code: "ar-kw", label: "العربية (الكويت)", lines: ["أنا غني", "بحق"] },
+    { code: "ar-eg", label: "العربية (مصر)", lines: ["أنا غني", "فعلاً"] },
+    { code: "ar-ma", label: "العربية (المغرب)", lines: ["أنا غني", "بزاف"] },
+    { code: "ar", label: "العربية", lines: ["أنا غني", "حقًا"] },
+    { code: "fr", label: "Français", lines: ["JE SUIS UN", "VRAI RICHE"] },
+    { code: "en", label: "English", lines: ["I AM TRULY", "RICH"] },
+    { code: "en-us", label: "English (USA)", lines: ["I AM TRULY", "RICH"] },
+    { code: "es", label: "Español", lines: ["SOY UN", "VERDADERO RICO"] },
+    { code: "de", label: "Deutsch", lines: ["ICH BIN", "WIRKLICH REICH"] },
+    { code: "it", label: "Italiano", lines: ["SONO UN", "VERO RICCO"] },
+    { code: "pt", label: "Português", lines: ["SOU UM", "VERDADEIRO RICO"] },
+    { code: "nl", label: "Nederlands", lines: ["IK BEN", "ECHT RIJK"] },
+    { code: "pl", label: "Polski", lines: ["JESTEM", "NAPRAWDĘ BOGATY"] },
+    { code: "sv", label: "Svenska", lines: ["JAG ÄR", "VERKLIGEN RIK"] },
+    { code: "el", label: "Ελληνικά", lines: ["ΕΙΜΑΙ ΠΡΑΓΜΑΤΙΚΑ", "ΠΛΟΥΣΙΟΣ"] },
+    { code: "ru", label: "Русский", lines: ["Я ПО-НАСТОЯЩЕМУ", "БОГАТ"] },
+    { code: "tr", label: "Türkçe", lines: ["BEN GERÇEKTEN", "ZENGİNİM"] },
+    { code: "he", label: "עברית", lines: ["אני עשיר", "אמיתי"] },
+    { code: "hi", label: "हिन्दी", lines: ["मैं सच में", "अमीर हूँ"] },
+    { code: "th", label: "ไทย", lines: ["ฉันรวย", "จริงๆ"] },
+    { code: "vi", label: "Tiếng Việt", lines: ["TÔI THỰC SỰ", "GIÀU CÓ"] },
+    { code: "zh", label: "中文", lines: ["我是", "真正的富人"] },
+    { code: "ja", label: "日本語", lines: ["私は本当の", "お金持ちです"] },
+    { code: "ko", label: "한국어", lines: ["나는 진짜", "부자다"] },
+    { code: "uk", label: "Українська", lines: ["Я СПРАВДІ", "БАГАТИЙ"] },
+    { code: "ro", label: "Română", lines: ["SUNT CU ADEVĂRAT", "BOGAT"] },
+    { code: "hu", label: "Magyar", lines: ["VALÓBAN", "GAZDAG VAGYOK"] },
+    { code: "cs", label: "Čeština", lines: ["JSEM OPRAVDU", "BOHATÝ"] },
+    { code: "sk", label: "Slovenčina", lines: ["SOM NAOZAJ", "BOHATÝ"] },
+    { code: "fi", label: "Suomi", lines: ["OLEN TODELLA", "RIKAS"] },
+    { code: "da", label: "Dansk", lines: ["JEG ER VIRKELIG", "RIG"] },
+    { code: "no", label: "Norsk", lines: ["JEG ER VIRKELIG", "RIK"] },
+    { code: "id", label: "Bahasa Indonesia", lines: ["SAYA BENAR-BENAR", "KAYA"] },
+    { code: "ms", label: "Bahasa Melayu", lines: ["SAYA SUNGGUH", "KAYA"] },
+    { code: "tl", label: "Filipino", lines: ["TUNAY AKONG", "MAYAMAN"] },
+    { code: "sw", label: "Kiswahili", lines: ["MIMI NI TAJIRI", "KWELI KABISA"] },
+    { code: "fa", label: "فارسی", lines: ["من واقعاً", "ثروتمندم"] },
+    { code: "ur", label: "اردو", lines: ["میں واقعی", "امیر ہوں"] },
+    { code: "bn", label: "বাংলা", lines: ["আমি সত্যিই", "ধনী"] },
+    { code: "ta", label: "தமிழ்", lines: ["நான் உண்மையிலேயே", "பணக்காரன்"] },
+    { code: "te", label: "తెలుగు", lines: ["నేను నిజంగా", "ధనవంతుడిని"] },
+    { code: "pa", label: "ਪੰਜਾਬੀ", lines: ["ਮੈਂ ਸੱਚਮੁੱਚ", "ਅਮੀਰ ਹਾਂ"] },
+    { code: "mr", label: "मराठी", lines: ["मी खरोखर", "श्रीमंत आहे"] },
+    { code: "gu", label: "ગુજરાતી", lines: ["હું ખરેખર", "શ્રીમંત છું"] },
+    { code: "kn", label: "ಕನ್ನಡ", lines: ["ನಾನು ನಿಜವಾಗಿಯೂ", "ಶ್ರೀಮಂತ"] },
+    { code: "ml", label: "മലയാളം", lines: ["ഞാൻ ശരിക്കും", "സമ്പന്നൻ"] },
+    { code: "ne", label: "नेपाली", lines: ["म साँच्चै", "धनी छु"] },
+    { code: "si", label: "සිංහල", lines: ["මම ඇත්තටම", "පොහොසත්"] },
+    { code: "km", label: "ខ្មែរ", lines: ["ខ្ញុំពិតជា", "អ្នកមាន"] },
+    { code: "lo", label: "ລາວ", lines: ["ຂ້ອຍຮັ່ງມີ", "ແທ້ໆ"] },
+    { code: "mn", label: "Монгол", lines: ["БИ ҮНЭХЭЭР", "БАЯН"] },
+    { code: "ka", label: "ქართული", lines: ["მე ნამდვილად", "მდიდარი ვარ"] },
+    { code: "hy", label: "Հայերեն", lines: ["ԵՍ ԻՐՈՔ", "ՀԱՐՈՒՍՏ ԵՄ"] },
+    { code: "az", label: "Azərbaycanca", lines: ["MƏN HƏQİQƏTƏN", "VARLIYAM"] },
+    { code: "kk", label: "Қазақша", lines: ["МЕН ШЫНЫМЕН", "БАЙМЫН"] },
+    { code: "uz", label: "Oʻzbekcha", lines: ["MEN HAQIQATDAN", "BOYMAN"] },
+    { code: "sr", label: "Српски", lines: ["ЈА САМ ЗАИСТА", "БОГАТ"] },
+    { code: "hr", label: "Hrvatski", lines: ["JA SAM ZAISTA", "BOGAT"] },
+    { code: "bg", label: "Български", lines: ["АЗ НАИСТИНА", "СЪМ БОГАТ"] },
+    { code: "sl", label: "Slovenščina", lines: ["SEM RESNIČNO", "BOGAT"] },
+    { code: "lt", label: "Lietuvių", lines: ["AŠ TIKRAI", "TURTINGAS"] },
+    { code: "lv", label: "Latviešu", lines: ["ES ESMU PATIESI", "BAGĀTS"] },
+    { code: "et", label: "Eesti", lines: ["MA OLEN TÕESTI", "RIKAS"] },
+    { code: "is", label: "Íslenska", lines: ["ÉG ER SANNARLEGA", "RÍKUR"] },
+    { code: "ga", label: "Gaeilge", lines: ["TÁ MÉ GO FÍOR", "SAIBHIR"] },
+    { code: "cy", label: "Cymraeg", lines: ["RYDW I WIR YN", "GYFOETHOG"] },
+    { code: "ca", label: "Català", lines: ["SÓC REALMENT", "RIC"] },
+    { code: "eu", label: "Euskara", lines: ["BENETAN", "ABERATSA NAIZ"] },
+    { code: "af", label: "Afrikaans", lines: ["EK IS REGTIG", "RYK"] },
+    { code: "zu", label: "isiZulu", lines: ["NGICEBILE", "NGEQINISO"] },
+    { code: "ha", label: "Hausa", lines: ["NI HAKIKA", "MAI ARZIKI NE"] },
+    { code: "yo", label: "Yorùbá", lines: ["MO JẸ́ ỌLỌ́RỌ̀", "GAN-AN"] },
+    { code: "am", label: "አማርኛ", lines: ["እኔ በእውነት", "ሀብታም ነኝ"] }
+  ];
+
+  const colorPresets = ["#D4AF37", "#C0392B", "#3B5EDB"];
+
+  const langSelect = document.getElementById("langSelect");
+  const swatchesEl = document.getElementById("swatches");
+  const colorPicker = document.getElementById("colorPicker");
+  const badgeText = document.getElementById("badgeText");
+  const root = document.documentElement;
+
+  translations.forEach(t => {
+    const opt = document.createElement("option");
+    opt.value = t.code;
+    opt.textContent = t.label;
+    langSelect.appendChild(opt);
+  });
+
+  function renderText(code) {
+    const entry = translations.find(t => t.code === code) || translations[0];
+    badgeText.innerHTML = "";
+    const lineHeightEm = 1.15;
+    const startEm = -((entry.lines.length - 1) * lineHeightEm) / 2;
+    entry.lines.forEach((line, i) => {
+      const tspan = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
+      tspan.setAttribute("x", "170");
+      tspan.setAttribute("dy", (i === 0 ? startEm : lineHeightEm) + "em");
+      tspan.textContent = line;
+      badgeText.appendChild(tspan);
+    });
+  }
+
+  function hexToRgb(hex) {
+    const h = hex.replace("#", "");
+    return {
+      r: parseInt(h.substring(0,2), 16),
+      g: parseInt(h.substring(2,4), 16),
+      b: parseInt(h.substring(4,6), 16)
+    };
+  }
+
+  function rgbToHex(r,g,b) {
+    const c = v => Math.max(0, Math.min(255, Math.round(v))).toString(16).padStart(2, "0");
+    return "#" + c(r) + c(g) + c(b);
+  }
+
+  function shade(hex, amount) {
+    const { r, g, b } = hexToRgb(hex);
+    if (amount > 0) {
+      return rgbToHex(r + (255 - r) * amount, g + (255 - g) * amount, b + (255 - b) * amount);
+    }
+    return rgbToHex(r * (1 + amount), g * (1 + amount), b * (1 + amount));
+  }
+
+  function applyColor(hex) {
+    root.style.setProperty("--badge-color", hex);
+    root.style.setProperty("--badge-dark", shade(hex, -0.55));
+    root.style.setProperty("--badge-light", shade(hex, 0.45));
+    colorPicker.value = hex;
+    document.querySelectorAll(".swatch").forEach(s => {
+      s.classList.toggle("active", s.dataset.color.toLowerCase() === hex.toLowerCase());
+    });
+  }
+
+  colorPresets.forEach((hex, i) => {
+    const btn = document.createElement("button");
+    btn.className = "swatch" + (i === 0 ? " active" : "");
+    btn.style.background = hex;
+    btn.dataset.color = hex;
+    btn.setAttribute("aria-label", "Couleur " + hex);
+    btn.addEventListener("click", () => applyColor(hex));
+    swatchesEl.appendChild(btn);
+  });
+
+  colorPicker.addEventListener("input", e => applyColor(e.target.value));
+  langSelect.addEventListener("change", e => renderText(e.target.value));
+
+  renderText("fr");
+  applyColor(colorPresets[0]);
+</script>
+</body>
+</html>

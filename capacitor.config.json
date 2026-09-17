@@ -1,0 +1,9 @@
+{
+  "appId": "com.maxime.vrairiche",
+  "appName": "Vrai Riche",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "ios": {
+    "contentInset": "always"
+  }
+}
