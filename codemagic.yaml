@@ -67,6 +67,38 @@ workflows:
           fi
       - name: Sync web assets into the native project
         script: npx cap sync android
+      - name: Configure Android release signing
+        script: |
+          python3 - <<'EOF'
+          import re
+          path = "android/app/build.gradle"
+          with open(path) as f:
+              content = f.read()
+
+          signing_configs = '''
+              signingConfigs {
+                  release {
+                      storeFile file(System.getenv("CM_KEYSTORE_PATH"))
+                      storePassword System.getenv("CM_KEYSTORE_PASSWORD")
+                      keyAlias System.getenv("CM_KEY_ALIAS")
+                      keyPassword System.getenv("CM_KEY_PASSWORD")
+                  }
+              }
+          '''
+          if "signingConfigs {" not in content:
+              content = content.replace("android {", "android {\n" + signing_configs, 1)
+
+          if "signingConfig signingConfigs.release" not in content:
+              content = re.sub(
+                  r'(buildTypes\s*\{\s*release\s*\{)',
+                  r'\1\n            signingConfig signingConfigs.release',
+                  content
+              )
+
+          with open(path, "w") as f:
+              f.write(content)
+          print("build.gradle patched for release signing")
+          EOF
       - name: Build signed .aab
         script: |
           cd android
