@@ -45,7 +45,7 @@ workflows:
   android-vrai-riche:
     name: Vrai Riche - Android
     max_build_duration: 30
-   instance_type: mac_mini_m2
+    instance_type: mac_mini_m2
     environment:
       android_signing:
         - vrai_riche_keystore
