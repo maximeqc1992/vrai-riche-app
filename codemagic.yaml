@@ -1,6 +1,3 @@
-Voici le fichier complet, avec Java 21 — copie-colle tout dans `codemagic.yaml` :
-
-```yaml
 workflows:
   ios-vrai-riche:
     name: Vrai Riche - iOS
@@ -109,6 +106,3 @@ workflows:
       google_play:
         credentials: $GOOGLE_PLAY_CREDENTIALS
         track: internal
-```
-
-Colle ça, "Commit changes", relance le build.
