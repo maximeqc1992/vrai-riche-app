@@ -1,3 +1,6 @@
+Voici le fichier complet, avec Java 21 — copie-colle tout dans `codemagic.yaml` :
+
+```yaml
 workflows:
   ios-vrai-riche:
     name: Vrai Riche - iOS
@@ -54,7 +57,7 @@ workflows:
       vars:
         PACKAGE_NAME: "com.maxime.vrairiche"
       node: latest
-      java: 17
+      java: 21
     scripts:
       - name: Install npm dependencies
         script: npm install
@@ -106,3 +109,6 @@ workflows:
       google_play:
         credentials: $GOOGLE_PLAY_CREDENTIALS
         track: internal
+```
+
+Colle ça, "Commit changes", relance le build.
