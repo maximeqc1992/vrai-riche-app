@@ -46,7 +46,7 @@ workflows:
   android-vrai-riche:
     name: Vrai Riche - Android
     max_build_duration: 30
-   instance_type: linux
+    instance_type: linux
     environment:
       android_signing:
         - vrai_riche_keystore
@@ -71,8 +71,4 @@ workflows:
           cd android
           ./gradlew bundleRelease
     artifacts:
-      - android/app/build/outputs/**/*.aab
-    publishing:
-      google_play:
-        credentials: $GOOGLE_PLAY_CREDENTIALS
-        track: internal
+      -
