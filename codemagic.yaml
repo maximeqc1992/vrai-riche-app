@@ -20,7 +20,6 @@ workflows:
         script: npm install
       - name: Add iOS platform (first run only)
         script: |
-          npm install @capacitor/ios@^6.1.2
           if [ ! -d "ios" ]; then
             npx cap add ios
           fi
@@ -61,7 +60,6 @@ workflows:
         script: npm install
       - name: Add Android platform (first run only)
         script: |
-          npm install @capacitor/android@^6.1.2
           if [ ! -d "android" ]; then
             npx cap add android
           fi
